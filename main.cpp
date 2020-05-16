@@ -2,30 +2,64 @@
 #include <fstream>
 #include <string>
 #include <stdlib.h>
-#include <algorithm>
 #include <cstring>
 
-#include "BinaryTree.h"
+#include <chrono>
+#include <bits/stdc++.h>
+
+#include "HashMap.h"
+#include "BstNode.h"
+#include "AvlTree.h"
+
+#include "menuFunctions.cpp"
+
+#define MAXWORDS 300000
 
 using namespace std;
 
-int main()
-{
-    BinaryTree BiTree; //create new tree object in BinaryTree Class
+
+int main(){
+
+    string *wrd=new string[MAXWORDS];
 
 
-    ifstream infile("inputfile.txt");   //opens the file named inputfile.txt
-    std::string linestr;
+    string filename = getFilename();
+    ifstream infile(filename);
+    cout<<filename<<" loaded"<<endl;
 
-    while(getline(infile,linestr))
+
+    string linestr;
+    int wordsInFile=0;
+    while( infile >> linestr && wordsInFile<MAXWORDS)
     {
-        //use the remove_if to check if there are any punctuation marks in each lane and if there are any , remove them using .erase
-        linestr.erase(remove_if(linestr.begin(), linestr.end(), ::ispunct), linestr.end());
-        //cout<<linestr<<endl;
-
-        BiTree.CreateBinaryTree(linestr);
+            linestr.erase(remove_if(linestr.begin(), linestr.end(), ::ispunct), linestr.end());
+            wrd[wordsInFile]=linestr;
+            wordsInFile++;
     }
 
+    infile.close();
+    cout<<"Total words in file : "<<wordsInFile<<endl<<endl;
+
+
+
+    //Binary Tree
+
+    BstNode *BSTroot=NULL;
+    runBstNode(BSTroot,wrd,wordsInFile);
+
+
+
+    //AVL TREE
+
+    AvlTreeNode *AVLroot=NULL;
+    runAVL(AVLroot,wrd,wordsInFile);
+
+
+    //Hash
+
+    HashMap a;
+    runHashing(a,wrd,wordsInFile);
+    //a.print();
 
     return 0;
 }
