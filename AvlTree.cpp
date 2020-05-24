@@ -1,6 +1,7 @@
 #include "AvlTree.h"
 
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 
@@ -122,7 +123,10 @@ bool AvlSearch(AvlTreeNode *root,std::string word)
     }
     else if(root->data == word)
     {
-        cout<<root->n<<endl;
+        //cout<<root->n<<endl;
+        /*ofstream outfile("Output.txt", std::ios_base::app);
+        outfile<<"avl"<<word<<" "<<root->n<<endl;
+        outfile.close();*/
         return true;
     }
     else if(root->data > word)

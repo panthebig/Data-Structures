@@ -11,29 +11,47 @@
 #include "BstNode.h"
 #include "AvlTree.h"
 
-#include "menuFunctions.cpp"
+#include "menuFunctions.h"
 
-#define MAXWORDS 300000
+#define RANDOMWORDS 251352
+
+
 
 using namespace std;
 
 
 int main(){
 
-    string *wrd=new string[MAXWORDS];
+    string *randomWords=new string[RANDOMWORDS];
+    int randomWordsIndex=0;
+    random_device rd;
 
 
     string filename = getFilename();
     ifstream infile(filename);
     cout<<filename<<" loaded"<<endl;
 
+    BstNode *BSTroot=NULL;
+    AvlTreeNode *AVLroot=NULL;
+    HashMap a;
 
     string linestr;
     int wordsInFile=0;
-    while( infile >> linestr && wordsInFile<MAXWORDS)
+    while( infile >> linestr)
     {
             linestr.erase(remove_if(linestr.begin(), linestr.end(), ::ispunct), linestr.end());
-            wrd[wordsInFile]=linestr;
+            if(!(rd()%4))
+            {
+                randomWords[randomWordsIndex] = linestr;
+                randomWordsIndex++;
+                //cout<<wordsInFile<<" "<<linestr;
+            }
+
+
+            BSTroot = Insert(BSTroot,linestr);
+            AVLroot = AvlInsertion(AVLroot,linestr);
+            a.AddElement(linestr);
+
             wordsInFile++;
     }
 
@@ -41,25 +59,19 @@ int main(){
     cout<<"Total words in file : "<<wordsInFile<<endl<<endl;
 
 
+    searchRandom(a,BSTroot,AVLroot,randomWordsIndex,randomWords);
 
     //Binary Tree
-
-    BstNode *BSTroot=NULL;
-    runBstNode(BSTroot,wrd,wordsInFile);
+    //runBstNode(BSTroot,wrd,wordsInFile);
 
 
 
     //AVL TREE
-
-    AvlTreeNode *AVLroot=NULL;
-    runAVL(AVLroot,wrd,wordsInFile);
+    //runAVL(AVLroot,wrd,wordsInFile);
 
 
     //Hash
-
-    HashMap a;
-    runHashing(a,wrd,wordsInFile);
-    //a.print();
+    //runHashing(a,wrd,wordsInFile);
 
     return 0;
 }

@@ -18,6 +18,7 @@ class HashMap
 
 
 
+
         void print();
 
 
@@ -28,5 +29,6 @@ class HashMap
         const int Mapsize = 25000;     //size of hash data structure
         int uniqueWords = 0;
 };
+        int addin(string);
 
 #endif // HASHMAP_H

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "BstNode.h"
 
 using namespace std;
@@ -44,7 +45,10 @@ bool BstSearch(BstNode* root,std::string idata)
     }
     else if(root->data == idata)
     {
-        cout<<root->counter<<endl;
+        //cout<<root->counter<<endl;
+        /*ofstream outfile("Output.txt", std::ios_base::app);
+        outfile<<"Binary:"<<idata<<" "<<root->counter<<endl;
+        outfile.close();*/
         return true;
     }
     else if(root->data > idata)

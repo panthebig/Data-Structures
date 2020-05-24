@@ -1,28 +1,7 @@
-#ifndef MENUFUNCTIONS_H_INCLUDED
-#define MENUFUNCTIONS_H_INCLUDED
 
-/*
-#include "Hashmap.h"
-#include "BstNode.h"
-#include "AvlTree.h"*/
-
-#include <string>
-#include <iostream>
-#include <fstream>
+#include "menuFunctions.h"
 #include <chrono>
-#include <bits/stdc++.h>
-
-using namespace std;
-
-bool fileExists(string);
-string getFilename();
-void runHashing(HashMap &,string* &,int &);
-void runAVL(AvlTreeNode *,string* &,int &);
-void runBstNode(BstNode *,string* &,int &);
-
-
-
-
+typedef std::chrono::high_resolution_clock Clock;
 
 
 bool fileExists(string filename)
@@ -70,7 +49,6 @@ void runHashing(HashMap &a,string* &wrd,int &wordsInFile)
 {
     cout<<"Started hashing"<<endl<<endl;
 
-    random_device rd;
 
     auto start = chrono::high_resolution_clock::now();
     // unsync the I/O of C and C++.
@@ -107,7 +85,6 @@ void runAVL(AvlTreeNode *AVLroot,string* &wrd,int &wordsInFile)
 {
     cout<<"Started AVL Tree"<<endl<<endl;
 
-    random_device rd;
 
     auto start = chrono::high_resolution_clock::now();
     // unsync the I/O of C and C++.
@@ -175,7 +152,6 @@ void runBstNode(BstNode *BSTroot,string* &wrd,int &wordsInFile)
 
     cout<<"Creating Binary Search Tree..."<<endl;
 
-    random_device rd;
 
     auto start = chrono::high_resolution_clock::now();
     // unsync the I/O of C and C++.
@@ -236,4 +212,98 @@ void runBstNode(BstNode *BSTroot,string* &wrd,int &wordsInFile)
 
 }
 
-#endif
+void searchRandom(HashMap &a,BstNode *BSTroot,AvlTreeNode *AVLroot,int randomWordsIndex,string* & randomWords)
+{
+    ofstream outfile("Output.txt");
+    int hashfound = 0;
+    int bstfound = 0;
+    int avlfound = 0;
+
+
+
+
+
+    auto start = chrono::high_resolution_clock::now();
+    // unsync the I/O of C and C++.
+    ios_base::sync_with_stdio(false);
+
+
+    for(int i=0;i<randomWordsIndex;i++)
+    {
+        if(addin(randomWords[i]) < 0)
+            continue;
+        if(BstSearch(BSTroot,randomWords[i]))
+        {
+            bstfound++;
+        }
+    }
+
+    auto end = chrono::high_resolution_clock::now();
+
+    // Calculating total time taken by the program.
+    double time_takenBin = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+    time_takenBin *= 1e-9;
+
+    cout << "Binary Tree Search Took : " << fixed
+         << time_takenBin ;//<< setprecision(9);
+    cout << " sec" << endl;
+
+
+
+    start = chrono::high_resolution_clock::now();
+    // unsync the I/O of C and C++.
+    ios_base::sync_with_stdio(false);
+
+
+    for(int i=0;i<randomWordsIndex;i++)
+    {
+        if(addin(randomWords[i]) < 0)
+            continue;
+        if(AvlSearch(AVLroot,randomWords[i]))
+        {
+            avlfound++;
+        }
+    }
+
+    end = chrono::high_resolution_clock::now();
+
+    // Calculating total time taken by the program.
+    double time_takenAVL = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+    time_takenAVL *= 1e-9;
+
+    cout << "AVL Tree Search Took : " << fixed
+         << time_takenAVL ;//<< setprecision(9);
+    cout << " sec" << endl;
+
+
+
+    start = chrono::high_resolution_clock::now();
+    // unsync the I/O of C and C++.
+    ios_base::sync_with_stdio(false);
+
+
+    for(int i=0;i<randomWordsIndex;i++)
+    {
+        if(addin(randomWords[i]) < 0)
+            continue;
+        if(a.FindElement(randomWords[i]))
+        {
+            hashfound++;
+        }
+    }
+
+    end = chrono::high_resolution_clock::now();
+
+    // Calculating total time taken by the program.
+    double time_takenHash = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+    time_takenHash *= 1e-9;
+
+    cout << "Hash Search Took : " << fixed
+         << time_takenHash;// << setprecision(9);
+    cout << " sec" << endl;
+
+    cout << endl << hashfound << " "<<bstfound<< " "<<avlfound<<endl;
+
+    outfile.close();
+}
+
