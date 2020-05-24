@@ -2,7 +2,7 @@
 
 HashTable::HashTable()
 {
-    word ="";
+    word = string();
     repeat = 0;
 }
 HashTable::HashTable(string word,int repeat)
