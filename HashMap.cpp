@@ -1,4 +1,5 @@
 #include "HashMap.h"
+#include <math.h>
 
 int addin(string s)
 {
@@ -29,11 +30,11 @@ bool HashMap::AddElement(string word)
     int i=1;
     while (1)
     {
-        int temp = (sum+(i*i))%Mapsize;
+        int temp = (sum+(i*i*i))%Mapsize;
         //new element addition based on the sum of ASCII sum of character
         if(temp < 0)
             return false;
-        if(table[temp].Getword() == word )                  //Quadratic Hash table
+        if(table[temp].Getword() == word )
         {
             table[temp].Setrepeat(table[temp].Getrepeat()+1);
             return true;
@@ -52,19 +53,20 @@ bool HashMap::AddElement(string word)
     }
 
 }
-bool HashMap::FindElement(string word)
+bool HashMap::FindElement(string word, int &counter)
 {
     int sum = addin(word);
     int i=1;
     while (1)
     {
-        unsigned int temp = (sum+(i*i))%Mapsize;                    //Search Function
+        unsigned int temp = int(sum+(i*i*i))%Mapsize;                    //Search Function
         if(table[temp].Getword() == word )                  //Quadratic Hash table
         {
-            cout<<"Found word :"<<word<<" "<<this->table[temp].Getrepeat()<<" times"<<endl;
+            counter = table[temp].Getrepeat();
+            //cout<<"Found word :"<<word<<" "<<this->table[temp].Getrepeat()<<" times"<<endl;
             return true;
         }
-        else if(table[temp].Getword().empty())
+        else if(table[temp].Getword().empty() )
         {
             cout<<"Word not found :"<<word<<endl;
             return false;

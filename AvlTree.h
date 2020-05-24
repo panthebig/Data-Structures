@@ -26,7 +26,7 @@ AvlTreeNode *LeftRot(AvlTreeNode *); //performs a left rotation
 
 AvlTreeNode *AvlInsertion(AvlTreeNode *,std::string word);//inserts a new element in the Avl Tree
 
-bool AvlSearch(AvlTreeNode *,std::string word);//returns weather or not a word has been found
+bool AvlSearch(AvlTreeNode *,std::string word,int &);//returns weather or not a word has been found
 
 AvlTreeNode *AvlSearchNode(AvlTreeNode *,std::string word);//returns the node at which the node has been found
 

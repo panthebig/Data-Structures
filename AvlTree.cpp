@@ -1,6 +1,7 @@
 #include "AvlTree.h"
 
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 
@@ -114,7 +115,7 @@ AvlTreeNode *AvlInsertion(AvlTreeNode *root,std::string word)
 
 }
 
-bool AvlSearch(AvlTreeNode *root,std::string word)
+bool AvlSearch(AvlTreeNode *root,std::string word , int  &counter)
 {
     if(root==NULL)
     {
@@ -122,15 +123,16 @@ bool AvlSearch(AvlTreeNode *root,std::string word)
     }
     else if(root->data == word)
     {
-        cout<<root->n<<endl;
+        counter=root->n;
+        //cout<<root->n<<endl;
         return true;
     }
     else if(root->data > word)
     {
-        return AvlSearch(root->left,word);
+        return AvlSearch(root->left,word,counter);
     }
     else
-        return AvlSearch(root->right,word);
+        return AvlSearch(root->right,word,counter);
 }
 
 AvlTreeNode *AvlSearchNode(AvlTreeNode *root,std::string word)
