@@ -36,7 +36,7 @@ BstNode* Insert(BstNode* root,std::string data)
 
 }
 
-bool BstSearch(BstNode* root,std::string idata)
+bool BstSearch(BstNode* root,std::string idata,int &C)
 {
     if(root==NULL)
     {
@@ -44,15 +44,16 @@ bool BstSearch(BstNode* root,std::string idata)
     }
     else if(root->data == idata)
     {
-        cout<<root->counter<<endl;
+        C=root->counter;
+        //cout<<root->counter<<endl;
         return true;
     }
     else if(root->data > idata)
     {
-        return BstSearch(root->left,idata);
+        return BstSearch(root->left,idata,C);
     }
     else
-        return BstSearch(root->right,idata);
+        return BstSearch(root->right,idata,C);
 }
 
 BstNode* DeleteEllement(BstNode* root,std::string idata,int i)
