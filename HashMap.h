@@ -14,7 +14,8 @@ class HashMap
         HashMap();
         ~HashMap();
         bool AddElement(string);
-        bool FindElement(string);
+        bool FindElement(string, int &);
+
 
 
 
@@ -28,5 +29,6 @@ class HashMap
         const int Mapsize = 25000;     //size of hash data structure
         int uniqueWords = 0;
 };
+        int addin(string);
 
 #endif // HASHMAP_H

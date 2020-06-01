@@ -114,7 +114,7 @@ AvlTreeNode *AvlInsertion(AvlTreeNode *root,std::string word)
 
 }
 
-bool AvlSearch(AvlTreeNode *root,std::string word)
+bool AvlSearch(AvlTreeNode *root,std::string word,int &B)
 {
     if(root==NULL)
     {
@@ -122,15 +122,16 @@ bool AvlSearch(AvlTreeNode *root,std::string word)
     }
     else if(root->data == word)
     {
-        cout<<root->n<<endl;
+        B=root->n;
+        //cout<<root->n<<endl;
         return true;
     }
     else if(root->data > word)
     {
-        return AvlSearch(root->left,word);
+        return AvlSearch(root->left,word,B);
     }
     else
-        return AvlSearch(root->right,word);
+        return AvlSearch(root->right,word,B);
 }
 
 AvlTreeNode *AvlSearchNode(AvlTreeNode *root,std::string word)
@@ -141,7 +142,6 @@ AvlTreeNode *AvlSearchNode(AvlTreeNode *root,std::string word)
     }
     else if(root->data == word)
     {
-        cout<<root->n<<endl;
         return root;
     }
     else if(root->data > word)
@@ -163,9 +163,7 @@ AvlTreeNode *AVLdelete(AvlTreeNode *root,std::string word,int i)
 
     if(temp->n>=2)
     {
-        cout<<"Before :  "<<temp->n<<endl;
         temp->n--;
-        cout<<"after :  "<<temp->n<<endl;
         return root;
     }
     else
@@ -207,35 +205,35 @@ AvlTreeNode *AVLdelete(AvlTreeNode *root,std::string word,int i)
                 root->data=temp2->data;//to node pou thelw na diagrapsw pairnei tin timi tou elaxistou node tou deksia ypodendrou
                 root->right= AVLdelete(root->right,temp2->data,i);
             }
+        }
 
-            //checks if rotation is needed
-            //if the avl is not balanced, then the needed rotation will take place,balancing the tree
+        if(root==NULL)
+            return root;
 
-            int diff;
-            diff=HeightDiff(root);
+        root->height= MaxOfTwoHeights(getHeight(root->left),getHeight(root->right))+1;
+        int diff;
+        diff=HeightDiff(root);
 
-            //double left rotation needed Case
-            if (diff > 1 && word < root->left->data)
-                return RightRot(root);
+        if(diff > 1 && HeightDiff(root->left)>=0 )//left left
+        {
+            return RightRot(root);
+        }
 
-            //double Right rotation needed Case
-            if (diff < -1 && word > root->right->data)
-                return LeftRot(root);
+        if(diff < -1 && HeightDiff(root->right)<=0 )//right right
+        {
+            return LeftRot(root);
+        }
 
-            // Left Right rotation needed Case
-            if (diff > 1 && word > root->left->data)
-            {
-                root->left = LeftRot(root->left);
-                return RightRot(root);
-            }
+        if(diff > 1 && HeightDiff(root->left)<0 )//left right
+        {
+            root->left=LeftRot(root->left);
+            return RightRot(root);
+        }
 
-            // Right Left rotation needed Case
-            if (diff < -1 && word < root->right->data)
-            {
-                root->right = RightRot(root->right);
-                return LeftRot(root);
-            }
-
+        if(diff < -1 && HeightDiff(root->right)<=0 )//right left
+        {
+            root->right=RightRot(root->right);
+            return LeftRot(root);
         }
 
         return root;
@@ -244,11 +242,13 @@ AvlTreeNode *AVLdelete(AvlTreeNode *root,std::string word,int i)
 
 AvlTreeNode *AVLFindMIN(AvlTreeNode *root)
 {
-    while(root->left!=NULL)
+    AvlTreeNode *temp=root;
+
+    while(temp->left!=NULL)
     {
-        root=root->left;
+        temp=temp->left;
     }
-    return root;
+    return temp;
 }
 
 void preorder(AvlTreeNode *root)
